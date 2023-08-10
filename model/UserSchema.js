@@ -19,7 +19,10 @@ const userSchema = mongoose.Schema({
     lastname: { type: String },
     mobile: { type: Number },
     address: { type: String },
-    profile: { type: String }
+    profile: { type: String },
+    coachName: { type: String },
+    isCoach: { type: Boolean },
+    isAdmin: { type: Boolean},
 });
 const UserData = new mongoose.model("UserData", userSchema);
 

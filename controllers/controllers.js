@@ -36,7 +36,7 @@ exports.verifyUser = async function (req, res, next) {
 }**/
 exports.register = async function (req, res) {
     try {
-        const { username, password, profile, email } = req.body;
+        const { username, password, profile, email, coachName } = req.body;
 
         const existUsername = await UserData.findOne({ username });
         if (existUsername) {
@@ -56,6 +56,9 @@ exports.register = async function (req, res) {
                 password: hashedPassword,
                 profile: profile || '',
                 email,
+                coachName: coachName || 'Manish_Khaptawala',
+                isCoach: false,
+                isAdmin: false
             });
 
             try {
@@ -91,7 +94,9 @@ exports.login = async function (req, res) {
                 const tokenExpireTime = 60 * 15
                 const token = jwt.sign({
                     userId: user._id,
-                    username: user.username
+                    username: user.username,
+                    isCoach: user.isCoach,
+                    isAdmin: user.isAdmin,
                 }, process.env.JWT_SECRET, { expiresIn: tokenExpireTime })
                 return res.status(200).json({ message: 'Successfully logged in.', username: user.username, token, tokenExpireTime });
 
